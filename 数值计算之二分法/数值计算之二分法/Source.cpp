@@ -15,9 +15,11 @@ double Operation(double x)
 int main()
 {
 	double a, b, c, x;
+	int count = 1;
 	cin >> a >> b >> c;
 	while (fabs(a - b) >= c)
 	{
+		cout << "Temp D-value: " << fabs(a - b) << endl;
 		x = (a + b) / 2;
 		if (Operation(a)*Operation(x) < 0)
 		{
@@ -26,8 +28,12 @@ int main()
 		else {
 			a = x;
 		}
+		cout << "Step:" << count << " ";
+		cout << "Answer is:" << x << endl;
+		count++;
 	}
-	cout << "Answer is:" << x << endl;
+	cout << "Final D-value: " << fabs(a - b) << endl;
+	cout << "Final answer is:" << x << endl;
 	system("pause");
 	return 0;
 }
