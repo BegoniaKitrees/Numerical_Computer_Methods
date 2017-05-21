@@ -91,6 +91,7 @@ void double_secant()
 }
 int main()
 {
+	cout << abs(0.1234) << endl; 
 	iteration();
 	Newton_iteration();
 	single_secant();
