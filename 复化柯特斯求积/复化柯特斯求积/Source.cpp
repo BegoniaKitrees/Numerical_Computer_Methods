@@ -1,25 +1,36 @@
 #include<iostream>
 using namespace std;
+double fun(double x)
+{
+	if (x != 0) {
+		return 1.0 / x;
+	}
+}
 int main()
 {
 	int n;
 	cin >> n;
 	double a = 1.0;
 	double b = 2.0;
-	double h = (b - a) / n;
+	double h = (double)(b - a) / n;
+	cout << "h: " << h << endl;
 	double sum = 0.0;
-	for (int k = 0; k < n; k++)
+	double k = a;
+	for (int i = 0; i <= n - 1; i++)
 	{
-		sum += 32 * (1.0 / (k + 1.0 / 4 + 1));
-		sum += 12 * (1.0 / (k + 1.0 / 2 + 1));
-		sum += 32 * (1.0 / (k + 3.0 / 4 + 1));
-		if (k >= 1) {
-			sum += 14 * (1.0 / k);
+		cout << "K: " << k << endl;
+		sum += 32 * fun(k + 0.25*h);
+		sum += 12 * fun(k + 0.5*h);
+		sum += 32 * fun(k + 0.75*h);
+		if (k > a) {
+			sum += 14 * fun(k);
 		}
+		k += h;
 	}
-	sum += 7.0 * (1.0 / a);
-	sum += 7.0 * (1.0 / b);
-	sum = sum*h / 90.0;
+	sum = sum + (7.0 * (1.0 / a));
+	sum = sum + (7.0 * (1.0 / b));
+	sum = sum*h;
+	sum = sum / 90;
 	cout << sum << endl;
 	system("pause");
 	return 0;
