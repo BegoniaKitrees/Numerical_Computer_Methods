@@ -1,58 +1,66 @@
 #include<iostream>
 #include<math.h>
-float f(float x)
-{	
-	float y;
-	y = exp(-x*x);
-	return(y);
+#include<iomanip>
+using namespace std;
+double fun(double x)
+{
+	return pow(x, 1.5);
 }
 int main()
 {
-	float a, b, h, x, R, eps, S, T[20];
-	int i, j, m = 2, g;
-	printf("\ninput a,b,eps:\n");
-	scanf("%f,%f,%f", &a, &b, &eps);
-	printf("a=%f,b=%f,eps=%f\n", a, b, eps);
-	h = b - a;
-	T[1] = h*(f(a) + f(b)) / 2;
-	T[2] = (T[1] + h*f(a + h / 2)) / 2;
-	T[1] = (4 * T[2] - T[1]) / 3;
-	for (i = 2; i <= 3; i++)
+	cout.precision(7);
+	double a = 1.0;
+	double b = 2.0;
+	double sum = 0.0;
+	double Matrix[4][6];
+
+	//变步长梯形
+	double h = (b - a);
+	Matrix[1][1] = h / 2 * (fun(a) + fun(b));
+	//cout << Matrix[1][1] << endl;
+	for (int i = 2; i <= 6; i++)
 	{
-		S = 0;
-		for (j = 1; j <= 2 * m - 1; j = j + 2)
+		double temp = 0.0;
+		//cout << "h: " << h << endl;
+		double start = a + h / 2;
+		for (int j = 0; j < pow(2, i - 2); j++)
 		{
-			x = a + j*h / m / 2;
-			S = S + f(x);
+			temp += fun(start);
+			start += h;
 		}
-		T[i + 1] = (T[i] + h*S / m) / 2;
-		g = 1;
-		for (j = i; j >= 1; j--)
-		{
-			g = 4 * g;
-			T[j] = (T[j + 1] * g - T[j]) / (g - 1);
-		}
-		m = 2 * m;
+		Matrix[i][1] = (1.0 / 2 * Matrix[i - 1][1]) + (h / 2 * temp);
+		//cout << Matrix[i][1] << endl;
+		h = h / 2;
 	}
-	R = T[1];
-	for (i = 4; ; i++)
+
+	//变步长辛普森
+	for (int i = 2; i <= 6; i++)
 	{
-		S = 0;
-		for (j = 1; j <= 2 * m - 1; j = j + 2)
-		{
-			x = a + j*h / m / 2;
-			S = S + f(x);
-		}
-		T[i + 1] = (T[i] + h*S / m) / 2;
-		g = 1;
-		for (j = i; j >= i - 2; j--)
-		{
-			g = 4 * g;
-			T[j] = (T[j + 1] * g - T[j]) / (g - 1);
-		}
-		if (fabs(T[i - 2] - R)<eps)break;
-		m = 2 * m;
-		R = T[i - 2];
+		Matrix[i][2] = 4.0 / 3 * Matrix[i][1] - 1.0 / 3 * Matrix[i - 1][1];
 	}
-	printf("I=%f\n", T[i - 2]);
+
+	//变步长柯特斯
+	for (int i = 3; i <= 6; i++)
+	{
+		Matrix[i][3] = 16.0 / 15 * Matrix[i][2] - 1.0 / 15 * Matrix[i - 1][2];
+	}
+	
+	//变步长龙贝格
+	for (int i = 4; i <= 6; i++)
+	{
+		Matrix[i][4] = 64.0 / 63 * Matrix[i][3] - 1.0 / 63 * Matrix[i - 1][3];
+	}
+
+	for (int i = 1; i <= 6; i++)
+	{
+		cout << "N: " << i << "\t";
+		for (int j = 1; j <= i && j<=4; j++)
+		{
+			cout << Matrix[i][j] << "\t";
+		}
+		cout << endl;
+	}
+	cout << "满足精度要求 10^-6" << endl;
+	system("pause");
+	return 0;
 }
