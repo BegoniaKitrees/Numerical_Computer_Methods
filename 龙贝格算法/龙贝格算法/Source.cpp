@@ -1,6 +1,9 @@
 #include<iostream>
 #include<math.h>
+<<<<<<< HEAD
 #include<iomanip>
+=======
+>>>>>>> origin/master
 using namespace std;
 double fun(double x)
 {
@@ -8,6 +11,7 @@ double fun(double x)
 }
 int main()
 {
+<<<<<<< HEAD
 	cout.precision(7);
 	double a = 1.0;
 	double b = 2.0;
@@ -61,6 +65,18 @@ int main()
 		cout << endl;
 	}
 	cout << "满足精度要求 10^-6" << endl;
+=======
+	double T[6];
+	double S[6];
+	double C[6];
+	double R[6];
+	double a = 1.0;
+	double b = 2.0;
+	double h = b - a;
+	cout << "h: " << h << endl;
+	T[1] = h / 2 * (fun(a) + fun(b));
+	double sum = 0;
+>>>>>>> origin/master
 	system("pause");
 	return 0;
 }
